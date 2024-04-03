@@ -23,4 +23,4 @@ async function pegarArquivo(caminhoDoArquivo) {
     }
 }
 
-pegarArquivo("./arquivos/texto.md")
+export default pegarArquivo;
