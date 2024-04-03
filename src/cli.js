@@ -4,12 +4,24 @@ import pegarArquivo from "./index.js";
 
 const caminho = process.argv;
 
-function imprimirLista(resultado) {
-    console.log(chalk.yellow("Lista de links"), resultado)
+function imprimirLista(resultado, identificador = " ") {
+    console.log(
+        chalk.yellow("Lista de links"),
+        chalk.black.bgGreen(identificador),
+        resultado)
 }
 
 async function processarTexto(argumentos) {
     const caminho = argumentos[2];
+
+    try {
+        fs.lstatSync(caminho)
+    } catch(erro) {
+        if (erro.code === "ENOENT") {
+            console.log("Arquivo ou diretório não existe")
+            return
+        }
+    }
 
     if (fs.lstatSync(caminho).isFile()) {
         const resultado = await pegarArquivo(argumentos[2]);
@@ -18,7 +30,7 @@ async function processarTexto(argumentos) {
         const arquivos = await fs.promises.readdir(caminho)
         arquivos.forEach(async (nomeDeArquivo) => {
             const lista = await pegarArquivo(`${caminho}/${nomeDeArquivo}`)
-            imprimirLista(lista)
+            imprimirLista(lista, nomeDeArquivo)
         })
         console.log(arquivos)
     }
