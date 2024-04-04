@@ -16,5 +16,9 @@ async function verificarStatus (listaURLs) {
 export default async function listaValidada (listaDeLinks) {
     const links = extrairLinks(listaDeLinks);
     const status = await verificarStatus(links);
-    return status
+
+    return listaDeLinks.map((objeto, indice) => ({
+        ...objeto,
+        status: status[indice]
+    }))
 }
