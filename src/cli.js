@@ -5,12 +5,12 @@ import listaValidada from "./http-validacao.js";
 
 const caminho = process.argv;
 
-function imprimirLista(valida, resultado, identificador = " ") {
+async function imprimirLista(valida, resultado, identificador = " ") {
     if (valida) {
         console.log(
             chalk.yellow("Lista de validada"),
             chalk.black.bgGreen(identificador),
-            listaValidada(resultado))
+            await listaValidada(resultado))
     } else {
     console.log(
         chalk.yellow("Lista de links"),
