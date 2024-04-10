@@ -6,12 +6,25 @@ async function verificarStatus (listaURLs) {
     const arrStatus = await Promise.
     all(
         listaURLs.map(async (url) => {
-            const response = await fetch(url)
-            return response.status;
+            try {
+                const response = await fetch(url)
+                return response.status;
+            } catch (erro) {
+                return manejarErros(erro)
+            }
         })
-    )
-    return arrStatus
-}
+        )
+        return arrStatus
+    }
+    
+    function manejarErros (erro) {
+        if (erro.cause.code === "ENOTFOUND") {
+            return "Link não encontrado"
+        } else {
+            return "Ocorreu algum erro"
+        }
+    }
+    
 
 export default async function listaValidada (listaDeLinks) {
     const links = extrairLinks(listaDeLinks);
